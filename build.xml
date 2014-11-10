@@ -1,0 +1,43 @@
+<project name="build tao" default="build" basedir=".">
+
+	<target name="help">
+		<echo msg ="Available Command : " />
+		<exec executable="phing" passthru="true">
+			<arg value="-l" />
+		</exec>
+	</target>
+
+	<target name="clean">
+		<delete dir="build" />
+		<delete dir="src" />
+	</target>
+	<target name="prepare">
+		<mkdir dir="build/logs"/>
+		<mkdir dir="build/pdepend/"/>
+		<mkdir dir="build/coverage" />
+		<mkdir dir="src" />
+	</target>
+	<resolvepath propertyName="src.dir.resolved" file="src" />
+
+	<target name="clone" depends="clean,prepare"> 
+
+		<gitclone repository="git@github.com:oat-sa/tao-user-guide.git" targetPath="src" />
+
+	</target>
+
+	<target name="convert" description="Convert md file using pandoc" depends="clone">
+		<exec command="pandoc --version" logoutput="true" />
+
+	</target>
+
+
+	<target name="make" depends="convert">
+		<echo msg="add here php call or create dedicated phing task" />
+		<exec command="php --version" logoutput="true" />
+	</target>
+
+	<target name="deploy">
+		<echo msg="Deploy can be made here or using jenkins' features" />
+	</target>
+	<target name="build" depends="make,deploy" description="Compute documentation"/>
+</project>
