@@ -22,7 +22,6 @@ abstract class PluginAbstract
     public function __construct($paths)
     {
         $paths['out'] .= '/' . strtolower(basename(FsUtils::normalizePath(get_called_class())));
-        FsUtils::mkDir($paths['base'] . $paths['out']);
         $this->paths = $paths;
     }
 
