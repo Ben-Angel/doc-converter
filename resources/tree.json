@@ -1,0 +1,378 @@
+{
+    "data": "Item",
+    "type": "class",
+    "_data": {
+        "uri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item",
+        "classUri": null
+    },
+    "attributes": {
+        "id": "http_2_www_0_tao_0_lu_1_Ontologies_1_TAOItem_0_rdf_3_Item",
+        "class": "node-class",
+        "data-uri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+    },
+    "state": "open",
+    "children": [
+        {
+            "data": "Item_1",
+            "type": "class",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i1415627384572341",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i1415627384572341",
+                "class": "node-class",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i1415627384572341"
+            },
+            "state": "closed",
+            "count": 0,
+            "permissions": {
+                "item-class-properties": true,
+                "item-class-new": true,
+                "item-new": true,
+                "item-class-delete": true,
+                "item-export": true,
+                "item-import": true
+            }
+        },
+        {
+            "data": "Planets and moons",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i141378830953265",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i141378830953265",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i141378830953265"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "Elections in the United States, 2004",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i141378831251257",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i141378831251257",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i141378831251257"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "Periods of History",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i141378831294529",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i141378831294529",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i141378831294529"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "The Space Shuttle, 30 years of adventure",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i1413788313346911",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i1413788313346911",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i1413788313346911"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "Chocolate Factory",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i141378831484613",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i141378831484613",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i141378831484613"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "Associate Things",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i1413788315485015",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i1413788315485015",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i1413788315485015"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "Characters and Plays",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i1413788316455317",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i1413788316455317",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i1413788316455317"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "Richard III (Take 2)",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i1413788317284819",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i1413788317284819",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i1413788317284819"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "Identifying Sentence Errors",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i1413788318314821",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i1413788318314821",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i1413788318314821"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "UK Airports (Take 1)",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i1413788319418523",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i1413788319418523",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i1413788319418523"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "Modal Feedback",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i1413788320118125",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i1413788320118125",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i1413788320118125"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "Googlemaps",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i1413788324478527",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i1413788324478527",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i1413788324478527"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "Mammals",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i141378832429429",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i141378832429429",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i141378832429429"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "MammalsRTL",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i1413788324252931",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i1413788324252931",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i1413788324252931"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        },
+        {
+            "data": "item with student tools",
+            "type": "instance",
+            "_data": {
+                "uri": "http:\/\/tao.lan\/tao.rdf#i1415192478925639",
+                "classUri": "http:\/\/www.tao.lu\/Ontologies\/TAOItem.rdf#Item"
+            },
+            "attributes": {
+                "id": "http_2_tao_0_lan_1_tao_0_rdf_3_i1415192478925639",
+                "class": "node-instance",
+                "data-uri": "http:\/\/tao.lan\/tao.rdf#i1415192478925639"
+            },
+            "permissions": {
+                "item-properties": true,
+                "item-authoring": true,
+                "item-delete": true,
+                "item-duplicate": true,
+                "item-preview": true,
+                "item-export": true,
+                "item-translate": true
+            }
+        }
+    ],
+    "count": 15,
+    "permissions": {
+        "item-class-properties": true,
+        "item-class-new": true,
+        "item-new": true,
+        "item-class-delete": true,
+        "item-export": true,
+        "item-import": true
+    }
+}
