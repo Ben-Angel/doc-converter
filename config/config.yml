@@ -7,8 +7,8 @@ $basePath = dirname(__DIR__);
 paths:
   base: <?=$basePath?>
   # these must be relative to basePath incl. leading slashes
-  in: /md/src
-  out: /distro
+  in: /data/md/src
+  out: /data/distro
 
 # each of these targets must correspond to a plugin
 targets:
