@@ -9,6 +9,7 @@ paths:
   # these must be relative to basePath incl. leading slashes
   in: /data/md/src
   out: /data/distro
+  trees: /data/trees
 
 # each of these targets must correspond to a plugin
 targets:
