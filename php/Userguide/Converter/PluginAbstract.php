@@ -21,8 +21,8 @@ abstract class PluginAbstract
      */
     public function __construct($paths)
     {
-        $paths['out'] .= '/' . strtolower(basename(FsUtils::normalizePath(get_called_class())));
         $this->paths = $paths;
+        $this->paths['distro'] .= '/' . strtolower(basename(FsUtils::normalizePath(get_called_class())));
     }
 
     /**
@@ -41,7 +41,7 @@ abstract class PluginAbstract
     protected function getOutputPath($path, $style='nested') {
         switch($style) {
             case 'nested':
-                return str_replace($this->paths['base'] . $this->paths['in'], $this->paths['base'] . $this->paths['out'], $path);
+                return str_replace($this->paths['base'] . $this->paths['md'], $this->paths['base'] . $this->paths['distro'], $path);
         }
     }
 
