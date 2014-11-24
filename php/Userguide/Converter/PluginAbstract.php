@@ -13,16 +13,19 @@ abstract class PluginAbstract
 {
 
     protected $paths = array();
+    protected $executable = null;
 
     /**
      * Create and change to the output directory
      *
-     * @param $paths
+     * @param array $paths
+     * @param null|string $executable
      */
-    public function __construct($paths)
+    public function __construct($paths, $executable = null)
     {
         $paths['out'] .= '/' . strtolower(basename(FsUtils::normalizePath(get_called_class())));
         $this->paths = $paths;
+        $this->executable = $executable;
     }
 
     /**

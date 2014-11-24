@@ -49,7 +49,7 @@ class ConverterTask
         $fileListing = $this->getFileListing($config['paths']['base'] . $config['paths']['in']);
 
         foreach($config['targets'] as $targetFormat) {
-            $targetPlugin = PluginFactory::build($targetFormat, $config['paths']);
+            $targetPlugin = PluginFactory::build($targetFormat['name'], $config['paths'], $targetFormat['bin']);
             $targetPlugin->runConversion($fileListing);
         }
     }

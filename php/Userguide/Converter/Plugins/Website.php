@@ -20,7 +20,7 @@ class Website extends PluginAbstract implements PluginInterface {
         foreach($fileListing as $mdFile) {
             $outputPath = $this->getOutputPath(dirname($mdFile));
             FsUtils::mkDir($outputPath);
-            system(sprintf('pandoc -f markdown -t html %s > %s', $mdFile, $outputPath . '/' . basename($mdFile, '.md') . '.html'), $retVal);
+            system(sprintf('%s -f markdown -t html %s > %s', $this->executable, $mdFile, $outputPath . '/' . basename($mdFile, '.md') . '.html'), $retVal);
         }
     }
 } 
