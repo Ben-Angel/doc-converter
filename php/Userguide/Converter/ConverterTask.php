@@ -7,6 +7,7 @@ use Jig\Utils\StringUtils;
 use Symfony\Component\Yaml\Yaml;
 use Userguide\Converter\PluginFactory;
 use Userguide\Helpers\Indexer;
+use Jig\Utils\Console;
 
 /**
  * Class Converter
@@ -42,7 +43,7 @@ class ConverterTask
         $indexer = new Indexer($config);
 
 
-        \console::log($indexer -> getYmlTree(), $indexer->treeFromMd($config['paths']['base'] . $config['paths']['md']));
+        Console::log(json_encode($indexer -> getYmlTree(), JSON_PRETTY_PRINT), $indexer->treeFromMd($config['paths']['base'] . $config['paths']['md']));
 
 //        $fileListing = $this->getFileListing($config['paths']['base'] . $config['paths']['md']);
 //
