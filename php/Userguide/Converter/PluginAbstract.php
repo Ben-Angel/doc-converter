@@ -23,7 +23,7 @@ abstract class PluginAbstract
      */
     public function __construct($paths, $executable = null)
     {
-        $paths['out'] .= '/' . strtolower(basename(FsUtils::normalizePath(get_called_class())));
+        $paths['out'] .= FsUtils::normalizePath('/' . strtolower(basename( str_replace( '\\', DIRECTORY_SEPARATOR, get_called_class() ) )));
         $this->paths = $paths;
         $this->executable = $executable;
     }
