@@ -1,11 +1,10 @@
 <?php
 
-namespace Userguide\Converter;
+namespace Userguide\Distributor;
 
 /**
  * Invoke a converter  plugin
  *
- * @author Dieter Raber <dieter@taotesting.com>
  */
 class PluginFactory
 {
@@ -15,16 +14,17 @@ class PluginFactory
      *
      * @param $targetFormat
      * @param array $paths
-     * @param null|string $executable
+     * @param array $params
      *
      * @throws \Exception
+     *
      * @return mixed
      */
-    public static function build( $targetFormat, $paths, $executable = null )
+    public static function build($targetFormat, $paths, $params = array())
     {
         $nsPlugin = __NAMESPACE__ . '\\Plugins\\' . $targetFormat;
         if (class_exists($nsPlugin)) {
-            return new $nsPlugin($paths, $executable);
+            return new $nsPlugin($paths, $params);
         }
         throw new \Exception('Invalid plugin ' . $nsPlugin);
     }

@@ -23,8 +23,8 @@ abstract class PluginAbstract
      */
     public function __construct($paths, $executable = null)
     {
-        $paths['distro'] .= FsUtils::normalizePath('/' . strtolower(basename( str_replace( '\\', DIRECTORY_SEPARATOR, get_called_class() ) )));
         $this->paths = $paths;
+        $this->paths['distro'] .= FsUtils::normalizePath('/' . strtolower(basename( str_replace( '\\', DIRECTORY_SEPARATOR, get_called_class() ) )));
         $this->executable = $executable;
     }
 
@@ -46,6 +46,10 @@ abstract class PluginAbstract
             case 'nested':
                 return str_replace($this->paths['base'] . $this->paths['md'], $this->paths['base'] . $this->paths['distro'], $path);
         }
+    }
+
+    public function getBaseOutputPath(){
+        return $this->paths['base'] . $this->paths['distro'];
     }
 
 }
