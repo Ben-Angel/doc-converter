@@ -37,7 +37,7 @@ class Posts extends WPAPI_Posts
      */
     protected function buildFilterPartUri( array $filter )
     {
-        $uriFilter = '';
+        $uriFilter = '&filter[posts_per_page]=2000&page=1';
         foreach ($filter as $field => $terms) {
             $glue = '&filter[' . $field . ']=';
             if (count( $terms ) == 1) {
