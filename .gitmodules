@@ -1,3 +1,6 @@
 [submodule "data"]
 	path = data
 	url = https://github.com/oat-sa/tao-user-guide.git
+[submodule "data/tao-user-guide"]
+	path = data/tao-user-guide
+	url = https://github.com/oat-sa/tao-user-guide.git
