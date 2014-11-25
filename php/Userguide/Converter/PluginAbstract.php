@@ -13,16 +13,19 @@ abstract class PluginAbstract
 {
 
     protected $paths = array();
+    protected $executable = null;
 
     /**
      * Create and change to the output directory
      *
-     * @param $paths
+     * @param array $paths
+     * @param null|string $executable
      */
-    public function __construct($paths)
+    public function __construct($paths, $executable = null)
     {
         $this->paths = $paths;
-        $this->paths['distro'] .= '/' . strtolower(basename(FsUtils::normalizePath(get_called_class())));
+        $this->paths['distro'] .= FsUtils::normalizePath('/' . strtolower(basename( str_replace( '\\', DIRECTORY_SEPARATOR, get_called_class() ) )));
+        $this->executable = $executable;
     }
 
     /**
@@ -43,6 +46,10 @@ abstract class PluginAbstract
             case 'nested':
                 return str_replace($this->paths['base'] . $this->paths['md'], $this->paths['base'] . $this->paths['distro'], $path);
         }
+    }
+
+    public function getBaseOutputPath(){
+        return $this->paths['base'] . $this->paths['distro'];
     }
 
 }

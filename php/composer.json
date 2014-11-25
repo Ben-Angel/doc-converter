@@ -1,11 +1,18 @@
 {
     "require": {
         "oat-sa/jig": "dev-master",
-        "symfony/yaml": "2.6.*@dev"
+        "symfony/yaml": "2.6.*@dev",
+        "wp-api/client": "dev-master",
+        "symfony/console": "2.6.*@dev",
+        "symfony/finder": "2.6.*@dev"
     },
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
           "Userguide\\": "Userguide"
+        },
+        "psr-0": {
+            "": "vendor/wp-api/client/library"
         }
     }
 }

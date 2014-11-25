@@ -2,12 +2,9 @@
 
 namespace Userguide\Converter;
 
-use Jig\Utils\FsUtils;
-use Jig\Utils\StringUtils;
-use Symfony\Component\Yaml\Yaml;
-use Userguide\Converter\PluginFactory;
-use Userguide\Helpers\Indexer;
 use Jig\Utils\Console;
+use Userguide\Helpers\Config;
+use Userguide\Helpers\Indexer;
 
 /**
  * Class Converter
@@ -27,14 +24,7 @@ class ConverterTask
      */
     public function __construct($configFile)
     {
-        ob_start();
-        include($configFile);
-        $config = Yaml::parse(ob_get_clean());
-
-
-        foreach($config['paths'] as &$path) {
-            $path = FsUtils::normalizePath($path);
-        }
+        $config = Config::get($configFile);
 
         if(!is_dir($config['paths']['base'] . $config['paths']['md'])){
             throw new \Exception('Markdown files not found');
@@ -42,15 +32,13 @@ class ConverterTask
 
         $indexer = new Indexer($config);
 
+        Console::log($indexer -> getYmlTree(), $indexer->treeFromMd($config['paths']['base'] . $config['paths']['md']));
 
-        Console::log(json_encode($indexer -> getYmlTree(), JSON_PRETTY_PRINT), $indexer->treeFromMd($config['paths']['base'] . $config['paths']['md']));
-
-//        $fileListing = $this->getFileListing($config['paths']['base'] . $config['paths']['md']);
 //
-//        foreach($config['targets'] as $targetFormat) {
-//            $targetPlugin = PluginFactory::build($targetFormat, $config['paths']);
-//            $targetPlugin->runConversion($fileListing);
-//        }
+       foreach($config['targets'] as $targetFormat) {
+           $targetPlugin = PluginFactory::build($targetFormat['name'], $config['paths'], $targetFormat['bin']);
+           $targetPlugin->runConversion($fileListing);
+       }
     }
 
     /**

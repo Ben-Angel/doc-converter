@@ -8,7 +8,19 @@
 
 namespace Userguide\Distributor;
 
+use Userguide\Helpers\Config;
 
-class DistributorTask {
+class DistributorTask
+{
 
-} 
+    function __construct( $configFile )
+    {
+        $config = Config::get( $configFile );
+
+        foreach ($config['platforms'] as $targetSystem) {
+            $targetPlugin = PluginFactory::build( $targetSystem['name'], $config['paths'], $targetSystem['params'] );
+            $targetPlugin->execute();
+        }
+
+    }
+}

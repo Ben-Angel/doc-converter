@@ -13,7 +13,21 @@ paths:
 
 # each of these targets must correspond to a plugin
 targets:
-  - Website
-  - Ebook
-  - Tao
-  - Wiki
+  - name: Website
+    bin: /usr/local/bin/pandoc
+  - name: Ebook
+    bin:
+  - name: Tao
+    bin:
+  - name: Wiki
+    bin:
+
+# distribution targets
+platforms:
+  - name: Wordpress
+    params:
+      uri: http://wordpress.dev/?json_route=
+      login: admin
+      password: admin
+      tags: [ imported ]
+      source: Website
