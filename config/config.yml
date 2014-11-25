@@ -7,9 +7,9 @@ $basePath = dirname(__DIR__);
 paths:
   base: <?=$basePath?>
   # these must be relative to basePath incl. leading slashes
-  md: /data/md/src
-  distro: /data/distro
-  trees: /data/trees
+  md: /data/tao-user-guide/src
+  distro: /data/tao-user-guide/distro
+  trees: /data/tao-user-guide/trees
 
 # each of these targets must correspond to a plugin
 targets:

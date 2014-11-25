@@ -4,6 +4,7 @@ namespace Userguide\Helpers;
 
 use Jig\Utils\FsUtils;
 use Jig\Utils\StringUtils;
+use Jig\Utils\ArrayUtils;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -30,6 +31,11 @@ class Indexer
     private $config = array();
 
     /**
+     * @var string
+     */
+    private $linkMaps = array('csv' => '', 'flat' => '', 'nested' => '');
+
+    /**
      * @var array
      */
     private $counter = 0;
@@ -45,11 +51,6 @@ class Indexer
 
         $this->config = $config;
 
-        $rawYmlTree = Yaml::parse(
-            file_get_contents($config['paths']['base'] . $config['paths']['trees'] . '/toc.yml')
-        );
-
-        $this->ymlTree = $this->ymlToTree($rawYmlTree);
 
         //$this->mdTree = $this->treeFromMd($config['paths']['base'] . $config['paths']['md']);
 
@@ -89,30 +90,57 @@ class Indexer
         return str_pad((string)$this->counter, 4, '0', STR_PAD_LEFT);
     }
 
+    public function generateTrees() {
+        $treeDir = $this->config['paths']['base'] . $this->config['paths']['trees'];
+            $rawYmlTree = Yaml::parse(
+            file_get_contents($treeDir . '/toc.yml')
+        );
+        $this->ymlTree = $this->ymlToTree($rawYmlTree);
+        file_put_contents($treeDir . '/toc.json', json_encode($this->ymlTree));
+        file_put_contents($treeDir . '/link-map.csv', $this->linkMaps['csv']);
+        file_put_contents($treeDir . '/flat-link-map.md', $this->linkMaps['flat']);
+        file_put_contents($treeDir . '/nested-link-map.md', $this->linkMaps['nested']);
+    }
+
+
+    /**
+     * Add a line of data to the CSV list
+     *
+     * @param $data
+     */
+    protected function addToMaps($data)
+    {
+        $this->linkMaps['csv'] .= implode(',', ArrayUtils::csvQuote(array($data['node-id'], $data['md']))) . "\n";
+        $this->linkMaps['flat'] .= '[' . $data['node-id'] . ']: ' . $data['flat'] . "\n";
+        $this->linkMaps['nested'] .= '[' . $data['node-id'] . ']: ' . $data['nested'] . "\n";
+    }
+
     /**
      * Helper for ymlToTree()
      *
      * @param $nodeName
      * @param $nodeType
+     * @param $nodeId
      * @param string $parentHref
      * @return array
      */
-    protected function buildNode($nodeName, $nodeType, $parentHref = '')
+    protected function buildNode($nodeName, $nodeType, $nodeId = '', $parentHref = '')
     {
         $normalized = StringUtils::removeSpecChars($nodeName);
         $node       = array(
             'data'       => $nodeName,
             'type'       => $nodeType,
             'attributes' => array(
-                'id'    => $normalized,
+                'id'    => StringUtils::removeSpecChars($parentHref . '-' . $normalized),
                 'class' => 'node-' . $nodeType,
                 'href'  => $parentHref . '/' . $normalized,
             )
         );
-        if($nodeType === 'instance'){
-            $node['meta'] = array(
-                'counter'=> $this->getCounter()
-            );
+        if ($nodeType === 'instance') {
+            $node['meta']['node-id'] = $nodeId;
+            $node['meta']['md']      = $parentHref . '/' . $normalized . '.md';
+            $node['meta']['nested']  = $parentHref . '/' . $normalized . '.html';
+            $node['meta']['flat']    = $this->getCounter() . '-' . $normalized . '.html';
         }
         return $node;
     }
@@ -129,10 +157,16 @@ class Indexer
     {
         $result = array();
         foreach ($ymlTree as $key => $branch) {
+
             //files
-            if (!is_array($branch)) {
-                $node = $this->buildNode($branch, 'instance', $parentHref);
-                $node['attributes']['href'] .= '.html';
+            if (!empty($branch['title'])) {
+                $title                      = $branch['title'];
+                $nodeId                     = $branch['id'];
+                $node                       = $this->buildNode($title, 'instance', $nodeId, $parentHref);
+                $node['attributes']['href'] = $node['meta']['nested'];
+
+                $this->addToMaps($node['meta']);
+                unset($node['meta']);
                 $result[] = $node;
             } //yaml adds an extra array level with numeric key, so remove this here
             else {
@@ -140,7 +174,7 @@ class Indexer
                     $key    = key($branch);
                     $branch = current($branch);
                 }
-                $node             = $this->buildNode($key, 'class', $parentHref);
+                $node             = $this->buildNode($key, 'class', '', $parentHref);
                 $node['children'] = $this->ymlToTree($branch, $node['attributes']['href']);
                 $result[]         = $node;
             }
@@ -181,6 +215,7 @@ class Indexer
         }
         return $result;
     }
+
 
     /**
      * @param $path

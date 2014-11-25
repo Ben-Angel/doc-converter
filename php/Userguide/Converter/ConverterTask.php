@@ -31,14 +31,14 @@ class ConverterTask
         }
 
         $indexer = new Indexer($config);
+        $indexer->generateTrees();
 
-        Console::log($indexer -> getYmlTree(), $indexer->treeFromMd($config['paths']['base'] . $config['paths']['md']));
 
 //
-       foreach($config['targets'] as $targetFormat) {
-           $targetPlugin = PluginFactory::build($targetFormat['name'], $config['paths'], $targetFormat['bin']);
-           $targetPlugin->runConversion($fileListing);
-       }
+//       foreach($config['targets'] as $targetFormat) {
+//           $targetPlugin = PluginFactory::build($targetFormat['name'], $config['paths'], $targetFormat['bin']);
+//           $targetPlugin->runConversion($fileListing);
+//       }
     }
 
     /**
