@@ -1,4 +1,4 @@
-doc-converter
+Doc Converter
 =============
 
-Convert documentaion from markdown to other formats
+Convert documentation written in markdown to other formats
