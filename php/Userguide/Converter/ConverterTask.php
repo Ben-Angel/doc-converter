@@ -2,7 +2,8 @@
 
 namespace Userguide\Converter;
 
-use Jig\Utils\Console;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Userguide\Helpers\Config;
 use Userguide\Helpers\Indexer;
 
@@ -33,34 +34,40 @@ class ConverterTask
         $indexer = new Indexer($config);
         $indexer->generateTrees();
 
+        $fileListing = $this->getFileListing($config['paths']['base'] . $config['paths']['md'], $indexer->getMetaTree());
 
-//
-//       foreach($config['targets'] as $targetFormat) {
-//           $targetPlugin = PluginFactory::build($targetFormat['name'], $config['paths'], $targetFormat['bin']);
-//           $targetPlugin->runConversion($fileListing);
-//       }
+        foreach($config['targets'] as $targetFormatOptions) {
+           $targetPlugin = PluginFactory::build($targetFormatOptions['name'], $config['paths'], $targetFormatOptions, $indexer);
+           $targetPlugin->runConversion($fileListing);
+        }
     }
 
     /**
      * Filters all empty files and directories out
      *
      * @param $inputPath
+     * @param $metaTree
+     *
      * @return array
+     * @throws \Exception
      */
-    protected function getFileListing($inputPath)
+    protected function getFileListing($inputPath, $metaTree)
     {
-
-        $listing    = array();
-        $rawListing = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($inputPath),
-            \RecursiveIteratorIterator::SELF_FIRST
-        );
-        foreach ($rawListing as $mdFile => $cursor) {
-            if ('md' !== $cursor->getExtension()) {
-                continue;
+        $listing = array();
+        $finder = new Finder();
+        $files  = $finder->files()->name( '*.md' )->in( $inputPath );
+        $metaTree = array_map(function($e){return trim($e['md'],DIRECTORY_SEPARATOR);},$metaTree);
+        /** @var SplFileInfo $file */
+        foreach ($files as $file) {
+            $nodeId = array_search( $file->getRelativePathname(), $metaTree );
+            if ($nodeId === false){
+                $error = sprintf( '%s don\'t match to file structure, cant find %s ', Indexer::FILE_TOC_YML, $file->getRelativePathname() );
+                throw new \Exception( $error );
             }
-            $listing[] = $mdFile;
+
+            $listing[$nodeId] = $file->getRealPath();
         }
+
         return $listing;
     }
 }

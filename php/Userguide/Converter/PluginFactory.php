@@ -2,6 +2,8 @@
 
 namespace Userguide\Converter;
 
+use Userguide\Helpers\Indexer;
+
 /**
  * Invoke a converter  plugin
  *
@@ -15,16 +17,18 @@ class PluginFactory
      *
      * @param $targetFormat
      * @param array $paths
-     * @param null|string $executable
+     * @param array $options
      *
+     * @param Indexer $indexer
+     *
+     * @return PluginAbstract|PluginInterface
      * @throws \Exception
-     * @return mixed
      */
-    public static function build( $targetFormat, $paths, $executable = null )
+    public static function build( $targetFormat, array $paths, array $options = array(), Indexer $indexer )
     {
         $nsPlugin = __NAMESPACE__ . '\\Plugins\\' . $targetFormat;
         if (class_exists($nsPlugin)) {
-            return new $nsPlugin($paths, $executable);
+            return new $nsPlugin($paths, $options, $indexer);
         }
         throw new \Exception('Invalid plugin ' . $nsPlugin);
     }

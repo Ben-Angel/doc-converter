@@ -10,6 +10,8 @@ paths:
   md: /data/tao-user-guide/src
   distro: /data/tao-user-guide/distro
   trees: /data/tao-user-guide/trees
+  assets: /data/tao-user-guide/assets
+  resources: /data/tao-user-guide/resources
 
 # each of these targets must correspond to a plugin
 targets:

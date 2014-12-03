@@ -3,6 +3,7 @@
 namespace Userguide\Converter;
 
 use Jig\Utils\FsUtils;
+use Userguide\Helpers\Indexer;
 
 /**
  * PluginBase is the abstract base class for all plugins
@@ -13,19 +14,23 @@ abstract class PluginAbstract
 {
 
     protected $paths = array();
-    protected $executable = null;
+    protected $options;
+    protected $indexer;
 
     /**
      * Create and change to the output directory
      *
      * @param array $paths
-     * @param null|string $executable
+     * @param array $options
+     * @param Indexer $indexer
+     *
      */
-    public function __construct($paths, $executable = null)
+    public function __construct($paths, array $options, Indexer $indexer)
     {
         $this->paths = $paths;
+        $this->options = $options;
+        $this->indexer = $indexer;
         $this->paths['distro'] .= FsUtils::normalizePath('/' . strtolower(basename( str_replace( '\\', DIRECTORY_SEPARATOR, get_called_class() ) )));
-        $this->executable = $executable;
     }
 
     /**
@@ -48,8 +53,27 @@ abstract class PluginAbstract
         }
     }
 
+    /**
+     * @return string
+     */
     public function getBaseOutputPath(){
         return $this->paths['base'] . $this->paths['distro'];
     }
+
+    /**
+     * Directory with images, styles etc specific for plugin
+     * @return string
+     */
+    protected function getAssetsDir(){
+        return $this->paths['base'] . $this->paths['assets'] . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getResourceDir(){
+        return $this->paths['base'] . $this->paths['resources'] . DIRECTORY_SEPARATOR . $this->options['name'] . DIRECTORY_SEPARATOR;
+    }
+
 
 }

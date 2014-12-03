@@ -14,6 +14,14 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Indexer
 {
+    //source file
+    const FILE_TOC_YML = 'toc.yml';
+
+    //generated files
+    const FILE_MAP_LINKS_FLAT = 'flat-link-map.md';
+    const FILE_MAP_LINKS_NESTED = 'nested-link-map.md';
+    const FILE_MAP_LINKS = 'link-map.csv';
+    const FILE_TOC_JSON = 'toc.json';
 
     /**
      * @var array
@@ -24,6 +32,12 @@ class Indexer
      * @var array
      */
     private $mdTree = array();
+
+
+    /**
+     * @var array
+     */
+    private $metaTree = array();
 
     /**
      * @var array
@@ -75,6 +89,14 @@ class Indexer
     }
 
     /**
+     * @return array
+     */
+    public function getMetaTree()
+    {
+        return $this->metaTree;
+    }
+
+    /**
      * Filters all empty files and directories out
      *
      * @param $inputPath
@@ -93,13 +115,13 @@ class Indexer
     public function generateTrees() {
         $treeDir = $this->config['paths']['base'] . $this->config['paths']['trees'];
             $rawYmlTree = Yaml::parse(
-            file_get_contents($treeDir . '/toc.yml')
+            file_get_contents($treeDir . DIRECTORY_SEPARATOR. self::FILE_TOC_YML )
         );
         $this->ymlTree = $this->ymlToTree($rawYmlTree);
-        file_put_contents($treeDir . '/toc.json', json_encode($this->ymlTree));
-        file_put_contents($treeDir . '/link-map.csv', $this->linkMaps['csv']);
-        file_put_contents($treeDir . '/flat-link-map.md', $this->linkMaps['flat']);
-        file_put_contents($treeDir . '/nested-link-map.md', $this->linkMaps['nested']);
+        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_TOC_JSON, json_encode( $this->ymlTree ) );
+        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS, $this->linkMaps['csv'] );
+        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS_FLAT, $this->linkMaps['flat'] );
+        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS_NESTED, $this->linkMaps['nested'] );
     }
 
 
@@ -166,6 +188,7 @@ class Indexer
                 $node['attributes']['href'] = $node['meta']['nested'];
 
                 $this->addToMaps($node['meta']);
+                $this->metaTree[$node['meta']['node-id']] = $node['meta'];
                 unset($node['meta']);
                 $result[] = $node;
             } //yaml adds an extra array level with numeric key, so remove this here

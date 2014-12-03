@@ -23,7 +23,7 @@ class Wordpress extends PluginAbstract implements PluginInterface
     {
 
         $finder = new Finder();
-        $finder->files()->name( '*.html' )->in( $this->paths['source'] . '/' );
+        $finder->files()->name( '*.html' )->in( $this->paths['source'] . DIRECTORY_SEPARATOR );
 
         $api = new WPAPI( $this->params['uri'], $this->params['login'], $this->params['password'] );
 
