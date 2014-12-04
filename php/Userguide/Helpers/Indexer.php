@@ -14,14 +14,15 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Indexer
 {
+
     //source file
     const FILE_TOC_YML = 'toc.yml';
 
     //generated files
-    const FILE_MAP_LINKS_FLAT = 'flat-link-map.md';
+    const FILE_MAP_LINKS_FLAT   = 'flat-link-map.md';
     const FILE_MAP_LINKS_NESTED = 'nested-link-map.md';
-    const FILE_MAP_LINKS = 'link-map.csv';
-    const FILE_TOC_JSON = 'toc.json';
+    const FILE_MAP_LINKS        = 'link-map.csv';
+    const FILE_TOC_JSON         = 'toc.json';
 
     /**
      * @var array
@@ -112,16 +113,17 @@ class Indexer
         return str_pad((string)$this->counter, 4, '0', STR_PAD_LEFT);
     }
 
-    public function generateTrees() {
-        $treeDir = $this->config['paths']['base'] . $this->config['paths']['trees'];
-            $rawYmlTree = Yaml::parse(
-            file_get_contents($treeDir . DIRECTORY_SEPARATOR. self::FILE_TOC_YML )
+    public function generateTrees()
+    {
+        $treeDir       = $this->config['paths']['base'] . $this->config['paths']['trees'];
+        $rawYmlTree    = Yaml::parse(
+            file_get_contents($treeDir . DIRECTORY_SEPARATOR . self::FILE_TOC_YML)
         );
         $this->ymlTree = $this->ymlToTree($rawYmlTree);
-        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_TOC_JSON, json_encode( $this->ymlTree ) );
-        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS, $this->linkMaps['csv'] );
-        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS_FLAT, $this->linkMaps['flat'] );
-        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS_NESTED, $this->linkMaps['nested'] );
+        file_put_contents($treeDir . DIRECTORY_SEPARATOR . self::FILE_TOC_JSON, json_encode($this->ymlTree));
+        file_put_contents($treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS, $this->linkMaps['csv']);
+        file_put_contents($treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS_FLAT, $this->linkMaps['flat']);
+        file_put_contents($treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS_NESTED, $this->linkMaps['nested']);
     }
 
 

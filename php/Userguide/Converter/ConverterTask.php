@@ -27,18 +27,26 @@ class ConverterTask
     {
         $config = Config::get($configFile);
 
-        if(!is_dir($config['paths']['base'] . $config['paths']['md'])){
+        if (!is_dir($config['paths']['base'] . $config['paths']['md'])) {
             throw new \Exception('Markdown files not found');
         }
 
         $indexer = new Indexer($config);
         $indexer->generateTrees();
 
-        $fileListing = $this->getFileListing($config['paths']['base'] . $config['paths']['md'], $indexer->getMetaTree());
+        $fileListing = $this->getFileListing(
+            $config['paths']['base'] . $config['paths']['md'],
+            $indexer->getMetaTree()
+        );
 
-        foreach($config['targets'] as $targetFormatOptions) {
-           $targetPlugin = PluginFactory::build($targetFormatOptions['name'], $config['paths'], $targetFormatOptions, $indexer);
-           $targetPlugin->runConversion($fileListing);
+        foreach ($config['targets'] as $targetFormatOptions) {
+            $targetPlugin = PluginFactory::build(
+                $targetFormatOptions['name'],
+                $config['paths'],
+                $targetFormatOptions,
+                $indexer
+            );
+            $targetPlugin->runConversion($fileListing);
         }
     }
 
@@ -55,14 +63,23 @@ class ConverterTask
     {
         $listing = array();
         $finder = new Finder();
-        $files  = $finder->files()->name( '*.md' )->in( $inputPath );
-        $metaTree = array_map(function($e){return trim($e['md'],DIRECTORY_SEPARATOR);},$metaTree);
+        $files = $finder->files()->name('*.md')->in($inputPath);
+        $metaTree = array_map(
+            function ($e){
+                return trim($e['md'], DIRECTORY_SEPARATOR);
+            },
+            $metaTree
+        );
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
-            $nodeId = array_search( $file->getRelativePathname(), $metaTree );
-            if ($nodeId === false){
-                $error = sprintf( '%s don\'t match to file structure, cant find %s ', Indexer::FILE_TOC_YML, $file->getRelativePathname() );
-                throw new \Exception( $error );
+            $nodeId = array_search($file->getRelativePathname(), $metaTree);
+            if ($nodeId === false) {
+                $error = sprintf(
+                    '%s don\'t match to file structure, cant find %s ',
+                    Indexer::FILE_TOC_YML,
+                    $file->getRelativePathname()
+                );
+                throw new \Exception($error);
             }
 
             $listing[$nodeId] = $file->getRealPath();

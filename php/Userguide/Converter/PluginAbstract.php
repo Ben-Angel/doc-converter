@@ -46,6 +46,11 @@ abstract class PluginAbstract
         return 0 === strpos($firstLine, '#') ? ltrim($firstLine, '# ') : '';
     }
 
+    /**
+     * @param $path
+     * @param string $style
+     * @return mixed
+     */
     protected function getOutputPath($path, $style='nested') {
         switch($style) {
             case 'nested':
