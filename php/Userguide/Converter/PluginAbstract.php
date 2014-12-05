@@ -25,7 +25,7 @@ abstract class PluginAbstract
      * @param Indexer $indexer
      *
      */
-    public function __construct($paths, array $options, Indexer $indexer)
+    public function __construct($paths, array $options, Indexer $indexer = null)
     {
         $this->paths = $paths;
         $this->options = $options;

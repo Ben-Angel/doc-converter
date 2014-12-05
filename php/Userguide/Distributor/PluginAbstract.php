@@ -20,7 +20,8 @@ abstract class PluginAbstract
         $this->params = $params;
 
         /** @var \Userguide\Converter\PluginAbstract $sourcePlugin */
-        $sourcePlugin = ConvertorPluginFactory::build($params['source'], $paths);
+
+        $sourcePlugin = ConvertorPluginFactory::build($params['params']['source'], $paths );
 
         $this->paths['source'] = $sourcePlugin->getBaseOutputPath();
     }
