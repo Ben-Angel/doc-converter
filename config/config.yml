@@ -2,6 +2,10 @@
 
 $basePath = dirname(__DIR__);
 
+$localconfig = $basePath. DIRECTORY_SEPARATOR . 'config'. DIRECTORY_SEPARATOR .'local.yml';
+if ( file_exists($localconfig)){
+  echo file_get_contents( $localconfig);
+}
 ?>
 
 paths:

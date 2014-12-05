@@ -2,3 +2,5 @@
 /data/md
 /php/composer.lock
 /php/vendor
+
+/config/local.yml
