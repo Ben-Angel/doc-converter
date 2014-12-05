@@ -25,16 +25,16 @@ class Ebook extends PluginAbstract implements PluginInterface
 
         $this
             ->init( $fileListing )
-            ->prepareMdStrucure()
+            ->prepareMdStructure()
             ->prepareMap()
             ->prepareIndex()
             ->book();
     }
 
-    protected function prepareMdStrucure()
+    protected function prepareMdStructure()
     {
         $fullTargetPath = '';
-        //we should make structure flat -- rename files
+
         FsUtils::mkDir( $this->baseTmpDir );
 
         foreach ($this->fileListing as $nodeId => $fileName) {
@@ -44,7 +44,7 @@ class Ebook extends PluginAbstract implements PluginInterface
 
         copy(
             $this->paths['base'] . $this->paths['trees'] . DIRECTORY_SEPARATOR . Indexer::FILE_MAP_LINKS_FLAT,
-            $fullTargetPath . Indexer::FILE_MAP_LINKS_FLAT
+            $this->baseTmpDir . Indexer::FILE_MAP_LINKS_FLAT
         );
 
         return $this;
@@ -54,7 +54,7 @@ class Ebook extends PluginAbstract implements PluginInterface
     {
         $ebook = new \Md2Epub\EBook( $this->baseTmpDir );
 
-        $workingDir = sys_get_temp_dir() . uniqid( 'tao_' ) . DIRECTORY_SEPARATOR;
+        $workingDir = sys_get_temp_dir() . uniqid( 'tao_' );
 
         if (is_dir( $workingDir )) {
             FsUtils::rmDir( $workingDir );
@@ -65,7 +65,7 @@ class Ebook extends PluginAbstract implements PluginInterface
             array(
                 'out_file'      => $this->getBaseOutputPath() . DIRECTORY_SEPARATOR . 'book.epub',
                 'working_dir'   => $workingDir,
-                'templates_dir' => realpath( $this->getResourceDir() ),
+                'templates_dir' =>  $this->getResourceDir() ,
                 'filters'       => array(
                     'md' => function ( $text ) {
                         static $parser;
