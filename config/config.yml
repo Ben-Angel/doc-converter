@@ -15,8 +15,8 @@ paths:
 
 # each of these targets must correspond to a plugin
 targets:
-#  - name: Website
-#    bin: /usr/local/bin/pandoc
+  - name: Website
+    bin: /usr/local/bin/pandoc
   - name: Ebook
     bin:
   - name: Tao
