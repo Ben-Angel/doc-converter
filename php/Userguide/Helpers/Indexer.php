@@ -5,6 +5,8 @@ namespace Userguide\Helpers;
 use Jig\Utils\FsUtils;
 use Jig\Utils\StringUtils;
 use Jig\Utils\ArrayUtils;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -16,6 +18,7 @@ class Indexer
 {
     //source file
     const FILE_TOC_YML = 'toc.yml';
+    const FILE_TOC_MEDIA = 'media.yml';
 
     //generated files
     const FILE_MAP_LINKS_FLAT = 'flat-link-map.md';
@@ -118,6 +121,9 @@ class Indexer
             file_get_contents($treeDir . DIRECTORY_SEPARATOR. self::FILE_TOC_YML )
         );
         $this->ymlTree = $this->ymlToTree($rawYmlTree);
+
+        $this->refreshMediaTree();
+
         file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_TOC_JSON, json_encode( $this->ymlTree ) );
         file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS, $this->linkMaps['csv'] );
         file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS_FLAT, $this->linkMaps['flat'] );
@@ -294,6 +300,44 @@ class Indexer
 
         chdir($cwd);
         return $pathArr;
+    }
+
+    private function refreshMediaTree()
+    {
+        $treeDir = $this->config['paths']['base'] . $this->config['paths']['trees'] . DIRECTORY_SEPARATOR;
+
+        $sourceFolder = $this->config['paths']['base'] . $this->config['paths']['assets'] . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'Media' . DIRECTORY_SEPARATOR;
+
+        $mediaTree = Yaml::parse( file_get_contents( $treeDir . self::FILE_TOC_MEDIA ) );
+
+        $finder = new Finder();
+
+        $files  = $finder->files()->in( $sourceFolder );
+
+        $mediaHash = array_map(function($e){ return $e['file'];}, (array)$mediaTree);
+
+        /** @var SplFileInfo $file */
+        foreach ($files as $file) {
+            if ( ! in_array( $file->getRelativePathname(), (array)$mediaHash )) {
+                $mediaTree[] = [ 'file' => $file->getRelativePathname(), 'id' => uniqid( 'media_' ) ];
+            }
+        }
+
+        foreach ($mediaTree as $k => &$data){
+
+            //cleaning up information about missing files from tree, actually should not happen too often
+            if (!file_exists($sourceFolder . $data['file'])){
+                unset($mediaTree[$k]);
+                continue;
+            }
+
+            $this->linkMaps['csv'] .= implode(',', ArrayUtils::csvQuote(array($data['id'], $data['file']))) . "\n";
+            $this->linkMaps['flat'] .= '[' . $data['id'] . ']: ' . $data['file'] . "\n";
+            $this->linkMaps['nested'] .= '[' . $data['id'] . ']: ' . $data['file'] . "\n";
+        }
+
+        file_put_contents( $treeDir . self::FILE_TOC_MEDIA, Yaml::dump( $mediaTree ) );
+
     }
 
 }
