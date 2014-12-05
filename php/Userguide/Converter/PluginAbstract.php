@@ -25,12 +25,12 @@ abstract class PluginAbstract
      * @param Indexer $indexer
      *
      */
-    public function __construct($paths, array $options, Indexer $indexer)
+    public function __construct($paths, array $options, Indexer $indexer = null)
     {
         $this->paths = $paths;
         $this->options = $options;
         $this->indexer = $indexer;
-        $this->paths['distro'] .= FsUtils::normalizePath('/' . strtolower(basename( str_replace( '\\', DIRECTORY_SEPARATOR, get_called_class() ) )));
+        $this->paths['distro'] .= FsUtils::normalizePath('/' . strtolower(basename( get_called_class() )));
     }
 
     /**
@@ -70,14 +70,14 @@ abstract class PluginAbstract
      * @return string
      */
     protected function getAssetsDir(){
-        return $this->paths['base'] . $this->paths['assets'] . DIRECTORY_SEPARATOR;
+        return $this->paths['base'] . $this->paths['assets'];
     }
 
     /**
      * @return string
      */
     protected function getResourceDir(){
-        return $this->paths['base'] . $this->paths['resources'] . DIRECTORY_SEPARATOR . $this->options['name'] . DIRECTORY_SEPARATOR;
+        return $this->paths['base'] . $this->paths['resources'] . '/' . $this->options['name'];
     }
 
 

@@ -24,7 +24,7 @@ class PluginFactory
      * @return PluginAbstract|PluginInterface
      * @throws \Exception
      */
-    public static function build( $targetFormat, array $paths, array $options = array(), Indexer $indexer )
+    public static function build( $targetFormat, array $paths, array $options = array(), Indexer $indexer = null )
     {
         $nsPlugin = __NAMESPACE__ . '\\Plugins\\' . $targetFormat;
         if (class_exists($nsPlugin)) {

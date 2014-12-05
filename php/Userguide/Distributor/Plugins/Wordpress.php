@@ -7,6 +7,7 @@
  */
 namespace Userguide\Distributor\Plugins;
 
+use Jig\Utils\FsUtils;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Userguide\Distributor\Models\Wordpress\Posts;
@@ -23,7 +24,7 @@ class Wordpress extends PluginAbstract implements PluginInterface
     {
 
         $finder = new Finder();
-        $finder->files()->name( '*.html' )->in( $this->paths['source'] . DIRECTORY_SEPARATOR );
+        $finder->files()->name( '*.html' )->in( $this->paths['source'] . '/' );
 
         $api = new WPAPI( $this->params['uri'], $this->params['login'], $this->params['password'] );
 
@@ -86,7 +87,7 @@ class Wordpress extends PluginAbstract implements PluginInterface
     public function getPostCategories( SplFileInfo $file )
     {
         return array_merge(
-            explode( DIRECTORY_SEPARATOR, $file->getRelativePath() ),
+            explode( '/', FsUtils::normalizePath($file->getRelativePath()) ),
             [ 'userguide' ]
         );
     }
