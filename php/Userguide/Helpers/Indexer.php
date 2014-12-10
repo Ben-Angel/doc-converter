@@ -139,8 +139,8 @@ class Indexer
     protected function addToMaps($data)
     {
         $this->linkMaps['csv'] .= implode(',', ArrayUtils::csvQuote(array($data['node-id'], $data['md']))) . "\n";
-        $this->linkMaps['flat'] .= '[' . $data['node-id'] . ']: ' . $data['flat'] . "\n";
-        $this->linkMaps['nested'] .= '[' . $data['node-id'] . ']: ' . $data['nested'] . "\n";
+        $this->linkMaps['flat'] .= "\n" . '[' . $data['node-id'] . ']: ' . $data['flat'] ;
+        $this->linkMaps['nested'] .= "\n" .'[' . $data['node-id'] . ']: ' . $data['nested'];
     }
 
     /**
