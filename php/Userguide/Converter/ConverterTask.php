@@ -48,10 +48,10 @@ class ConverterTask implements TaskInterface
         $listing = array();
         $finder = new Finder();
         $files  = $finder->files()->name( '*.md' )->in( $inputPath );
-        $metaTree = array_map(function($e){return trim($e['md'],'/');},$metaTree);
+        $metaTree = array_map(function($e){return $e['md'];},$metaTree);
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
-            $relPath = FsUtils::normalizePath($file->getRelativePathname());
+            $relPath = FsUtils::normalizePath('/'. $file->getRelativePathname());
             $nodeId = array_search($relPath, $metaTree );
             if ($nodeId === false){
                 $error = sprintf( '%s don\'t match to file structure, cant find %s ', Indexer::FILE_TOC_YML, $file->getRelativePathname() );

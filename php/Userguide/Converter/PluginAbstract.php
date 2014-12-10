@@ -30,7 +30,7 @@ abstract class PluginAbstract
         $this->paths = $paths;
         $this->options = $options;
         $this->indexer = $indexer;
-        $this->paths['distro'] .= FsUtils::normalizePath('/' . strtolower(basename( get_called_class() )));
+        $this->paths['distro'] .= '/' . strtolower($this->options['name']);
     }
 
     /**
