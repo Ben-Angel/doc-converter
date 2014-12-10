@@ -22,7 +22,7 @@ targets:
   - name: Website
     bin: /usr/local/bin/pandoc
   - name: Ebook
-    bin:
+    bin: /usr/local/bin/pandoc
   - name: Tao
     bin:
   - name: Wiki

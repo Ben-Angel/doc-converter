@@ -168,7 +168,7 @@ class Indexer
             $node['meta']['node-id'] = $nodeId;
             $node['meta']['md']      = $parentHref . '/' . $normalized . '.md';
             $node['meta']['nested']  = $parentHref . '/' . $normalized . '.html';
-            $node['meta']['flat']    = $this->getCounter() . '-' . $normalized . '.html';
+            $node['meta']['flat']    = $this->getCounter() . '-' . $normalized . '.xhtml';
         }
         return $node;
     }
