@@ -28,7 +28,8 @@ class Ebook extends PluginAbstract implements PluginInterface
             ->prepareMdStructure()
             ->prepareMap()
             ->prepareIndex()
-            ->book();
+            ->makeEpubBook()
+            ->makeFB2Book();
     }
 
     protected function prepareMdStructure()
@@ -49,7 +50,7 @@ class Ebook extends PluginAbstract implements PluginInterface
         return $this;
     }
 
-    private function book()
+    private function makeEpubBook()
     {
         $ebook = new Epub($this->baseTmpDir );
 
@@ -108,6 +109,19 @@ class Ebook extends PluginAbstract implements PluginInterface
     private function prepareIndex()
     {
         //generates index file
+        return $this;
+    }
+
+    private function makeFB2Book()
+    {
+        $sourceFile =  $this->getBaseOutputPath() . '/book.epub';
+        $outputPath = $this->getBaseOutputPath();
+
+        system(sprintf('%s -f markdown -t fb2 %s > %s',
+            $this->options['bin'],
+            $sourceFile,
+            $outputPath . '/' . basename($sourceFile, '.epub') . '.fb2'), $retVal);
+
         return $this;
     }
 
