@@ -24,7 +24,7 @@ class Website extends PluginAbstract implements PluginInterface {
             FsUtils::mkDir($outputPath);
             system(sprintf('%s -f markdown -t html %s > %s',
                 $this->options['bin'],
-                $mdFile . ' ' . $this->paths['base'] . $this->paths['trees'] . DIRECTORY_SEPARATOR . Indexer::FILE_MAP_LINKS_NESTED,
+                $mdFile . ' ' . $this->paths['base'] . $this->paths['trees'] . '/' . Indexer::FILE_MAP_LINKS_NESTED,
                 $outputPath . '/' . basename($mdFile, '.md') . '.html'), $retVal);
         }
     }

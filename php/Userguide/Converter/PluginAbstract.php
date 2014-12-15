@@ -30,7 +30,7 @@ abstract class PluginAbstract
         $this->paths = $paths;
         $this->options = $options;
         $this->indexer = $indexer;
-        $this->paths['distro'] .= FsUtils::normalizePath('/' . strtolower(basename( str_replace( '\\', DIRECTORY_SEPARATOR, get_called_class() ) )));
+        $this->paths['distro'] .= '/' . strtolower($this->options['name']);
     }
 
     /**
@@ -46,6 +46,11 @@ abstract class PluginAbstract
         return 0 === strpos($firstLine, '#') ? ltrim($firstLine, '# ') : '';
     }
 
+    /**
+     * @param $path
+     * @param string $style
+     * @return mixed
+     */
     protected function getOutputPath($path, $style='nested') {
         switch($style) {
             case 'nested':
@@ -65,14 +70,14 @@ abstract class PluginAbstract
      * @return string
      */
     protected function getAssetsDir(){
-        return $this->paths['base'] . $this->paths['assets'] . DIRECTORY_SEPARATOR;
+        return $this->paths['base'] . $this->paths['assets'];
     }
 
     /**
      * @return string
      */
     protected function getResourceDir(){
-        return $this->paths['base'] . $this->paths['resources'] . DIRECTORY_SEPARATOR . $this->options['name'] . DIRECTORY_SEPARATOR;
+        return $this->paths['base'] . $this->paths['resources'] . '/' . $this->options['name'];
     }
 
 

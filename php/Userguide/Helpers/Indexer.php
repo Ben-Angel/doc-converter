@@ -118,16 +118,16 @@ class Indexer
     public function generateTrees() {
         $treeDir = $this->config['paths']['base'] . $this->config['paths']['trees'];
             $rawYmlTree = Yaml::parse(
-            file_get_contents($treeDir . DIRECTORY_SEPARATOR. self::FILE_TOC_YML )
+            file_get_contents($treeDir . '/' . self::FILE_TOC_YML )
         );
         $this->ymlTree = $this->ymlToTree($rawYmlTree);
 
         $this->refreshMediaTree();
 
-        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_TOC_JSON, json_encode( $this->ymlTree ) );
-        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS, $this->linkMaps['csv'] );
-        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS_FLAT, $this->linkMaps['flat'] );
-        file_put_contents( $treeDir . DIRECTORY_SEPARATOR . self::FILE_MAP_LINKS_NESTED, $this->linkMaps['nested'] );
+        file_put_contents( $treeDir . '/' . self::FILE_TOC_JSON, json_encode( $this->ymlTree ) );
+        file_put_contents( $treeDir . '/' . self::FILE_MAP_LINKS, $this->linkMaps['csv'] );
+        file_put_contents( $treeDir . '/' . self::FILE_MAP_LINKS_FLAT, $this->linkMaps['flat'] );
+        file_put_contents( $treeDir . '/' . self::FILE_MAP_LINKS_NESTED, $this->linkMaps['nested'] );
     }
 
 
@@ -139,8 +139,8 @@ class Indexer
     protected function addToMaps($data)
     {
         $this->linkMaps['csv'] .= implode(',', ArrayUtils::csvQuote(array($data['node-id'], $data['md']))) . "\n";
-        $this->linkMaps['flat'] .= '[' . $data['node-id'] . ']: ' . $data['flat'] . "\n";
-        $this->linkMaps['nested'] .= '[' . $data['node-id'] . ']: ' . $data['nested'] . "\n";
+        $this->linkMaps['flat'] .= "\n" . '[' . $data['node-id'] . ']: ' . $data['flat'] ;
+        $this->linkMaps['nested'] .= "\n" .'[' . $data['node-id'] . ']: ' . $data['nested'];
     }
 
     /**
@@ -168,7 +168,7 @@ class Indexer
             $node['meta']['node-id'] = $nodeId;
             $node['meta']['md']      = $parentHref . '/' . $normalized . '.md';
             $node['meta']['nested']  = $parentHref . '/' . $normalized . '.html';
-            $node['meta']['flat']    = $this->getCounter() . '-' . $normalized . '.html';
+            $node['meta']['flat']    = $this->getCounter() . '-' . $normalized . '.xhtml';
         }
         return $node;
     }
@@ -304,9 +304,9 @@ class Indexer
 
     private function refreshMediaTree()
     {
-        $treeDir = $this->config['paths']['base'] . $this->config['paths']['trees'] . DIRECTORY_SEPARATOR;
+        $treeDir = $this->config['paths']['base'] . $this->config['paths']['trees'] . '/';
 
-        $sourceFolder = $this->config['paths']['base'] . $this->config['paths']['assets'] . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . 'Media' . DIRECTORY_SEPARATOR;
+        $sourceFolder = $this->config['paths']['base'] . $this->config['paths']['assets'] . '/img/';
 
         $mediaTree = Yaml::parse( file_get_contents( $treeDir . self::FILE_TOC_MEDIA ) );
 
@@ -322,7 +322,6 @@ class Indexer
                 $mediaTree[] = [ 'file' => $file->getRelativePathname(), 'id' => uniqid( 'media_' ) ];
             }
         }
-
         foreach ($mediaTree as $k => &$data){
 
             //cleaning up information about missing files from tree, actually should not happen too often

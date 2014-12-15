@@ -1,10 +1,10 @@
 <?php
 namespace Userguide\Converter\Plugins;
 
-use dflydev\markdown\MarkdownExtraParser;
 use Jig\Utils\FsUtils;
 use Userguide\Converter\PluginAbstract;
 use Userguide\Converter\PluginInterface;
+use Userguide\Helpers\Epub;
 use Userguide\Helpers\Indexer;
 
 class Ebook extends PluginAbstract implements PluginInterface
@@ -28,31 +28,31 @@ class Ebook extends PluginAbstract implements PluginInterface
             ->prepareMdStructure()
             ->prepareMap()
             ->prepareIndex()
-            ->book();
+            ->makeEpubBook()
+            ->makeFB2BookFromEpub();
     }
 
     protected function prepareMdStructure()
     {
-        $fullTargetPath = '';
 
         FsUtils::mkDir( $this->baseTmpDir );
 
         foreach ($this->fileListing as $nodeId => $fileName) {
-            $fullTargetPath = $this->baseTmpDir . $this->indexer->getMetaTree()[$nodeId]['flat'] . '.md';
+            $fullTargetPath = $this->baseTmpDir .'/'. explode('.',$this->indexer->getMetaTree()[$nodeId]['flat'])[0] . '.md';
             copy( $fileName, $fullTargetPath );
         }
 
         copy(
-            $this->paths['base'] . $this->paths['trees'] . DIRECTORY_SEPARATOR . Indexer::FILE_MAP_LINKS_FLAT,
-            $this->baseTmpDir . Indexer::FILE_MAP_LINKS_FLAT
+            $this->paths['base'] . $this->paths['trees'] . '/' . Indexer::FILE_MAP_LINKS_FLAT,
+            $this->baseTmpDir . '/'. Indexer::FILE_MAP_LINKS_FLAT
         );
 
         return $this;
     }
 
-    private function book()
+    private function makeEpubBook()
     {
-        $ebook = new \Md2Epub\EBook( $this->baseTmpDir );
+        $ebook = new Epub($this->baseTmpDir );
 
         $workingDir = sys_get_temp_dir() . uniqid( 'tao_' );
 
@@ -63,17 +63,17 @@ class Ebook extends PluginAbstract implements PluginInterface
 
         $ebook->makeEpub(
             array(
-                'out_file'      => $this->getBaseOutputPath() . DIRECTORY_SEPARATOR . 'book.epub',
+                'out_file'      => $this->getBaseOutputPath() . '/book.epub',
                 'working_dir'   => $workingDir,
                 'templates_dir' =>  $this->getResourceDir() ,
                 'filters'       => array(
-                    'md' => function ( $text ) {
-                        static $parser;
-                        if ( ! isset( $parser )) {
-                            $parser = new MarkdownExtraParser();
-                        }
-
-                        return $parser->transform( $text );
+                    'md' => function ( $src ) {
+                        $outputPath = $this->getOutputPath(dirname($src));
+                        system(sprintf('%s -f markdown -t html %s > %s',
+                            $this->options['bin'],
+                            $src . ' ' . $this->paths['base'] . $this->paths['trees'] . '/' . Indexer::FILE_MAP_LINKS_FLAT,
+                            $outputPath . '/' . basename($src, '.md') . '.xhtml'), $retVal);
+                        return file_get_contents($outputPath . '/' . basename($src, '.md') . '.xhtml');
                     }
                 )
             )
@@ -84,9 +84,9 @@ class Ebook extends PluginAbstract implements PluginInterface
 
     private function init( array $fileListing )
     {
-        $this->baseTmpDir = sys_get_temp_dir() . uniqid( 'tao_' ) . DIRECTORY_SEPARATOR;
+        $this->baseTmpDir = sys_get_temp_dir() . uniqid( 'tao_' );
 
-        $outputPath = $this->getBaseOutputPath() . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR;
+        $outputPath = $this->getBaseOutputPath() . '/tmp';
         FsUtils::mkDir( $outputPath );
 
         $this->fileListing = $fileListing;
@@ -97,12 +97,11 @@ class Ebook extends PluginAbstract implements PluginInterface
     private function prepareMap()
     {
 
+        //we can change any meta structure for book
         copy(
-            $this->getResourceDir() . DIRECTORY_SEPARATOR . 'book.json',
-            $this->baseTmpDir . DIRECTORY_SEPARATOR . 'book.json'
+            $this->getResourceDir() .  '/book.json',
+            $this->baseTmpDir . '/book.json'
         );
-
-//        file_put_contents($this->baseTmpDir. DIRECTORY_SEPARATOR. 'book.json', $asd);
 
         return $this;
     }
@@ -110,6 +109,20 @@ class Ebook extends PluginAbstract implements PluginInterface
     private function prepareIndex()
     {
         //generates index file
+        return $this;
+    }
+
+    private function makeFB2BookFromEpub()
+    {
+        $outputPath = $this->getBaseOutputPath();
+
+        $sourceFile =  $outputPath . '/book.epub';
+
+        system(sprintf('%s -f markdown -t fb2 %s > %s',
+            $this->options['bin'],
+            $sourceFile,
+            $outputPath . '/' . basename($sourceFile, '.epub') . '.fb2'), $retVal);
+
         return $this;
     }
 

@@ -2,6 +2,7 @@
 
 namespace Userguide\Converter;
 
+use Jig\Utils\FsUtils;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Userguide\Helpers\Config;
@@ -47,10 +48,11 @@ class ConverterTask implements TaskInterface
         $listing = array();
         $finder = new Finder();
         $files  = $finder->files()->name( '*.md' )->in( $inputPath );
-        $metaTree = array_map(function($e){return trim($e['md'],DIRECTORY_SEPARATOR);},$metaTree);
+        $metaTree = array_map(function($e){return $e['md'];},$metaTree);
         /** @var SplFileInfo $file */
         foreach ($files as $file) {
-            $nodeId = array_search( $file->getRelativePathname(), $metaTree );
+            $relPath = FsUtils::normalizePath('/'. $file->getRelativePathname());
+            $nodeId = array_search($relPath, $metaTree );
             if ($nodeId === false){
                 $error = sprintf( '%s don\'t match to file structure, cant find %s ', Indexer::FILE_TOC_YML, $file->getRelativePathname() );
                 throw new \Exception( $error );
@@ -62,6 +64,9 @@ class ConverterTask implements TaskInterface
         return $listing;
     }
 
+    /**
+     *
+     */
     public function run()
     {
         $indexer = new Indexer($this->config);
