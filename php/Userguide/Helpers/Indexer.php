@@ -306,7 +306,7 @@ class Indexer
     {
         $treeDir = $this->config['paths']['base'] . $this->config['paths']['trees'] . '/';
 
-        $sourceFolder = $this->config['paths']['base'] . $this->config['paths']['assets'] . '/img/media/';
+        $sourceFolder = $this->config['paths']['base'] . $this->config['paths']['assets'] . '/img/';
 
         $mediaTree = Yaml::parse( file_get_contents( $treeDir . self::FILE_TOC_MEDIA ) );
 
